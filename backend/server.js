@@ -1,26 +1,28 @@
-import dns from "dns";
+// import dns from "dns";
 
-dns.setServers(["8.8.8.8", "8.8.4.4"]);
+// dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import connectDB from './config/mongodb.js';
-import connectCloudinry from "./config/cloudinary.js";
+import {connectCloudinary} from "./config/cloudinary.js";
 import userRouter from "./routes/userRoute.js";
+import productRouter from "./routes/productRoute.js";
 
 //App config
 const app = express()
 const port = process.env.PORT || 4000
 connectDB();
-connectCloudinry();
+connectCloudinary();
 
 //Middlewares
 app.use(express.json())
 app.use(cors())
 
 //api endpoints
-app.use('/api/user',userRouter)
+app.use('/api/user',userRouter);
+app.use('/api/product',productRouter);
 
 app.get('/',(req,res)=>{
     res.send('API Working')

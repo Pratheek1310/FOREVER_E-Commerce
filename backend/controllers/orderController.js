@@ -164,7 +164,7 @@ const placeOrderRazorpay = async (req, res) => {
     }
 }
 
-//
+// Verify Razorpay
 const verifyRazorpay = async (req, res) => {
     try {
 
@@ -190,7 +190,12 @@ const allOrders = async (req, res) => {
     try {
 
         const orders = await orderModel.find({});
-        res.json({ success: true, orders })
+
+        const validOrders = orders.filter((order) => {
+            return order.paymentMethod === 'COD' || order.payment === true;
+        });
+
+        res.json({ success: true, orders: validOrders });
 
     } catch (error) {
         console.log(error);
@@ -205,7 +210,12 @@ const userOrders = async (req, res) => {
         const { userId } = req.body
 
         const orders = await orderModel.find({ userId })
-        res.json({ success: true, orders })
+
+        const validOrders = orders.filter((order) => {
+            return order.paymentMethod === 'COD' || order.payment === true;
+        });
+
+        res.json({ success: true, orders: validOrders });
 
     } catch (error) {
         console.log(error);
@@ -228,4 +238,19 @@ const updateStatus = async (req, res) => {
     }
 }
 
-export { verifyRazorpay, verifyStripe, placeOrder, placeOrderStrip, placeOrderRazorpay, allOrders, userOrders, updateStatus };
+// Delete unpaid order if user cancels payment
+const deleteOrder = async (req, res) => {
+    try {
+        const { orderId } = req.body;
+
+        // Find the order by its MongoDB ID and delete it
+        await orderModel.findByIdAndDelete(orderId);
+
+        res.json({ success: true, message: 'Order Deleted' });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+}
+
+export { deleteOrder, verifyRazorpay, verifyStripe, placeOrder, placeOrderStrip, placeOrderRazorpay, allOrders, userOrders, updateStatus };

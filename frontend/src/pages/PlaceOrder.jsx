@@ -50,6 +50,21 @@ const PlaceOrder = () => {
           console.log(error);
           toast.error(error)
         }
+      },
+      modal: {
+        ondismiss: async () => { // Changed to an async arrow function
+          try {
+            // Tells the backend to delete this specific order ID
+            await axios.post(
+              backendUrl + '/api/order/delete',
+              { orderId: order.receipt },
+              { headers: { token } }
+            );
+            toast.error("Payment Cancelled");
+          } catch (error) {
+            console.log(error);
+          }
+        }
       }
     }
     const rzp = new window.Razorpay(options)

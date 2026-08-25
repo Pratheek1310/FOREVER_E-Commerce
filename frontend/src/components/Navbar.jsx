@@ -53,7 +53,11 @@ const Navbar = () => {
                     />
                 )}
                 <div className='group relative'>
-                    <img onClick={() => token ? null : navigate('/login')} src={assets.profile_icon} className='w-5 cursor-pointer' alt="" />
+                    {/* <img onClick={() => token ? null : navigate('/login')} src={assets.profile_icon} className='w-5 cursor-pointer' alt="" /> */}
+                    <div onClick={() => token ? null : navigate('/login')} className='flex items-center gap-2 cursor-pointer'>
+                        <img src={assets.profile_icon} className='w-5' alt="" />
+                        {!token && <p className='text-sm font-medium'>Login</p>}
+                    </div>
                     {/* Dropdown Menu */}
                     {token &&
                         <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>

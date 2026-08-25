@@ -2,27 +2,36 @@
 
 @import "tailwindcss";
 
-a.active hr{
+a.active hr {
     display: block;
 }
 
-*{
+* {
     font-family: Outfit;
 }
 
 .prata-regular {
-  font-family: "Prata", serif;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Prata", serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     display: none;
 }
 
 @media (max-width:640px) {
-    a.active{
+    a.active {
         background-color: black;
         color: white;
     }
+}
+
+/* Add this to index.css */
+:root {
+    /* Changes the progress bar at the bottom */
+    --toastify-color-success: #000000 !important;
+
+    /* Changes the checkmark icon */
+    --toastify-icon-color-success: #000000 !important;
 }
